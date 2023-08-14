@@ -58,13 +58,14 @@ export default function AddMainRole(props: AddMainROLEProps) {
 						/>
 					</Form.Item>
 					<Form.Item
-						style={{ marginTop: "5%", display: "flex" }}
+						style={{ marginTop: "5%", display: "flex", height: "150px" }}
 						label="Role Description"
 						name={"role_description"}
 					>
 						<Input.TextArea
 							style={{
 								width: "400px",
+								minHeight: "150px",
 							}}
 							placeholder="Add Role Description"
 						/>

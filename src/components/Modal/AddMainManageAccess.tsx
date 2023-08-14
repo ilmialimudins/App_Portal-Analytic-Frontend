@@ -1,7 +1,8 @@
-import { ValidateErrorEntity } from "rc-field-form/es/interface";
+// import { doAddMainManagaeAccess } from "";
 import {
 	Button,
 	Checkbox,
+	theme,
 	Divider,
 	Form,
 	Input,
@@ -13,18 +14,14 @@ import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useState } from "react";
 import { HiEllipsisHorizontal, HiMagnifyingGlass } from "react-icons/hi2";
-
-interface EditMainUSERProps {
-	// idMainUSER?: string;
-	// dataMainUSER?: DataMainUSER;
-	handleClose: (param: boolean) => void;
-	show?: boolean;
+import { ValidateErrorEntity } from "rc-field-form/es/interface";
+interface AddMainManagaeAccessProps {
+	show: boolean;
 	clickOk: () => void;
 	clickCancel: () => void;
-	isVerified?: boolean;
+	handleClose: (flag: boolean) => void;
 }
-
-export default function EditMainUser(props: EditMainUSERProps) {
+export default function AddMainManagaeAccess(props: AddMainManagaeAccessProps) {
 	const { Option } = Select;
 	const { handleClose } = props;
 
@@ -46,19 +43,18 @@ export default function EditMainUser(props: EditMainUSERProps) {
 	const CheckboxGroup = Checkbox.Group;
 
 	const plainOptions = [
-		"muhamamd.alimudin@astra.co.id",
-		"Pear@astra.co.id",
-		"Orange@astra.co.id",
-		"haha@astra.co.id",
-		"ihiih@astra.co.id",
-		"saokda@astra.co.id",
-		"asdadasd@astra.co.id",
-		"qeqweqwe@astra.co.id",
-		"aaaaaaaaa@astra.co.id",
-		"bbbbbbbbbbbb@astra.co.id",
-		"cccccccccc@astra.co.id",
-		"dddddddddd@astra.co.id",
+		"PT Astra International Tbk",
+		"PT Astra Otoparts Tbk",
+		"PT Astra Honda Motor",
+		"PT Astra Daihatsu Motor",
+		"PT Astra Agro Lestari Tbk",
+		"PT United Tractors Tbk",
+		"PT Astra Graphia Tbk",
+		"PT Astra Sedaya Finance",
+		"PT Serasi Autoraya (SERA)",
+		"PT Astra Credit Companies",
 	];
+
 	const defaultCheckedList = [""];
 	const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
 
@@ -90,13 +86,23 @@ export default function EditMainUser(props: EditMainUSERProps) {
 		<>
 			<Modal
 				centered={true}
-				width={940}
-				title="Edit Access"
+				width={900}
+				title={
+					<div
+						style={{
+							fontSize: "18px",
+							marginBottom: "20px",
+							marginTop: "-10px",
+							marginLeft: "10px",
+						}}
+					>
+						Add Access
+					</div>
+				}
 				open={props.show}
 				onOk={props.clickOk}
 				// confirmLoading={confirmLoading}
 				onCancel={props.clickCancel}
-				style={{ textAlign: "left" }}
 				footer={null}
 			>
 				<Form
@@ -105,8 +111,11 @@ export default function EditMainUser(props: EditMainUSERProps) {
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 					style={{
-						paddingLeft: "10px",
-						minWidth: 900,
+						minWidth: 860,
+						fontSize: "12px",
+						margin: "10px",
+						height: "500px",
+						overflowY: "auto",
 					}}
 				>
 					<Form.Item
@@ -206,7 +215,7 @@ export default function EditMainUser(props: EditMainUSERProps) {
 								>
 									<div>
 										<Input
-											style={{ marginBottom: "10px", minWidth: "600px" }}
+											style={{ marginBottom: "10px" }}
 											prefix={<HiMagnifyingGlass />}
 											placeholder="Search email..."
 										/>
@@ -280,57 +289,141 @@ export default function EditMainUser(props: EditMainUSERProps) {
 					</Form.Item>
 					<Form.Item
 						style={{
-							marginTop: "5%",
-							height: "120px",
+							display: "flex",
+							minWidth: "600px",
 						}}
-						label="Role User"
-						name={"role_user"}
+						label="Business Line"
+						name={"business_line"}
 					>
-						<div style={{ display: "flex", flexDirection: "column" }}>
-							<label
-								style={{
-									display: "flex",
-									alignItems: "left",
-									marginTop: "10px",
-								}}
-							>
-								<Checkbox />
-								<span style={{ marginLeft: "5px" }}>Admin CIR</span>
-							</label>
-							<label
-								style={{
-									display: "flex",
-									alignItems: "left",
-									marginTop: "10px",
-								}}
-							>
-								<Checkbox />
-								<span style={{ marginLeft: "5px" }}>Admin CIR 2</span>
-							</label>
-							<label
-								style={{
-									display: "flex",
-									alignItems: "left",
-									marginTop: "10px",
-								}}
-							>
-								<Checkbox />
-								<span style={{ marginLeft: "5px" }}>PIC CIR</span>
-							</label>
-							<label
-								style={{
-									display: "flex",
-									alignItems: "left",
-									marginTop: "10px",
-								}}
-							>
-								<Checkbox />
-								<span style={{ marginLeft: "5px" }}>PIC CIR 2</span>
-							</label>
-						</div>
+						<Select
+							style={{
+								width: "600px",
+							}}
+							placeholder="Filter by Company"
+						>
+							<Option value="line1">PT. Financial Service </Option>
+							<Option value="line2">PT. Management Service </Option>
+							<Option value="line3">PT. Information Service </Option>
+						</Select>
+					</Form.Item>
+					<Form.Item
+						style={{ display: "flex", minWidth: "600px" }}
+						label="Survey Group Company"
+						name={"survey_group_company"}
+					>
+						<Select
+							style={{
+								width: "600px",
+							}}
+							placeholder="Filter by Company"
+						>
+							<Option value="line1">PT. Financial Service </Option>
+							<Option value="line2">PT. Management Service </Option>
+							<Option value="line3">PT. Information Service </Option>
+						</Select>
 					</Form.Item>
 
-					<Divider />
+					<Form>
+						<div
+							style={{
+								border: "1px solid #ddd",
+								borderRadius: "5px 5px 0px 0px",
+								padding: "10px 0px 10px 10px",
+								backgroundColor: "#777",
+								marginTop: "-10px",
+								display: "flex",
+								textAlign: "left",
+							}}
+						>
+							<div style={{ color: "white", fontSize: "12px" }}>
+								Access to Company
+							</div>
+						</div>
+						<div
+							style={{
+								padding: "20px 0 0 20px",
+								boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+								borderRadius: "0px 0px 10px 10px",
+								fontSize: "12px",
+							}}
+						>
+							<div>
+								<Input
+									style={{ marginBottom: "20px", minWidth: "600px" }}
+									prefix={<HiMagnifyingGlass />}
+									placeholder="Search email..."
+								/>
+								<div style={{ maxHeight: "165px", overflow: "auto" }}>
+									<Checkbox
+										indeterminate={indeterminate}
+										onChange={onCheckAllChange}
+										checked={checkAll}
+									>
+										Select all
+									</Checkbox>
+									<div
+										style={{ margin: "10px 0px 10px 0px", fontSize: "16px" }}
+									>
+										A
+									</div>
+									<div style={{ display: "flex", flexDirection: "row" }}>
+										<div style={{ flex: 1 }}>
+											<CheckboxGroup
+												style={{ display: "flex", flexDirection: "column" }}
+												options={plainOptions.slice(
+													0,
+													Math.ceil(plainOptions.length / 2)
+												)}
+												value={checkedList}
+												onChange={onChange}
+											/>
+										</div>
+										<div style={{ flex: 1 }}>
+											<CheckboxGroup
+												style={{ display: "flex", flexDirection: "column" }}
+												options={plainOptions.slice(
+													Math.ceil(plainOptions.length / 2)
+												)}
+												value={checkedList}
+												onChange={onChange}
+											/>
+										</div>
+									</div>
+									<div
+										style={{ margin: "10px 0px 10px 0px", fontSize: "16px" }}
+									>
+										B
+									</div>
+									<div style={{ display: "flex", flexDirection: "row" }}>
+										<div style={{ flex: 1 }}>
+											<CheckboxGroup
+												style={{ display: "flex", flexDirection: "column" }}
+												options={plainOptions.slice(
+													0,
+													Math.ceil(plainOptions.length / 2)
+												)}
+												value={checkedList}
+												onChange={onChange}
+											/>
+										</div>
+										<div style={{ flex: 1 }}>
+											<CheckboxGroup
+												style={{ display: "flex", flexDirection: "column" }}
+												options={plainOptions.slice(
+													Math.ceil(plainOptions.length / 2)
+												)}
+												value={checkedList}
+												onChange={onChange}
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</Form>
+					<div></div>
+					<Divider style={{ marginTop: "15px", marginBottom: "15px" }} />
+
 					<Form.Item
 						label=" "
 						colon={false}
@@ -344,11 +437,11 @@ export default function EditMainUser(props: EditMainUSERProps) {
 							className="mr-4 bg-white hover:bg-stone-100   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
 							style={{
 								color: "blue",
-								width: "170px",
-								height: "40px",
+								width: "150px",
+								height: "30px",
 								fontSize: "12px",
 								transition: "ease-in ",
-								marginTop: "-20px",
+								marginTop: "-40px",
 								marginBottom: "-20px",
 								marginLeft: "100px",
 							}}
@@ -360,8 +453,8 @@ export default function EditMainUser(props: EditMainUSERProps) {
 							className="mr-4 bg-blue-700 hover:bg-blue-500   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
 							style={{
 								color: "white",
-								width: "170px",
-								height: "40px",
+								width: "150px",
+								height: "30px",
 								fontSize: "12px",
 								transition: "ease-in ",
 								marginTop: "-20px",

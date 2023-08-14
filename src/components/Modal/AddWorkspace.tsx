@@ -1,47 +1,29 @@
+// import { doAddWorkspace } from "";
 import { Button, Divider, Form, Input, Modal, Select } from "antd";
-import { ValidateErrorEntity } from "rc-field-form/es/interface";
 
-const { Option } = Select;
-
-interface DataMainUSER {
-	company_code: string;
-	company: string;
-	alias_company: string;
-	server_group: string;
-	business_line: string;
-	current_modelling_type: string;
-}
-
-interface EditMainUSERProps {
-	idMainUSER?: string;
-	dataMainUSER?: DataMainUSER;
-	handleClose: (param: boolean) => void;
-	show?: boolean;
+interface AddWorkspaceProps {
+	show: boolean;
 	clickOk: () => void;
 	clickCancel: () => void;
-	isVerified?: boolean;
+	handleClose: (flag: boolean) => void;
 }
 
-export default function EditMainUser(props: EditMainUSERProps) {
+export default function AddWorkspace(props: AddWorkspaceProps) {
+	const { Option } = Select;
 	const { handleClose } = props;
-	const idMainUSER = props.idMainUSER;
-	const dataMainUSER = props.dataMainUSER;
-	const onFinish = (data: EditMainUSERProps) => {
+
+	const onFinish = () => {
 		handleClose(false);
 	};
 
-	const onFinishFailed = (
-		errorInfo: ValidateErrorEntity<EditMainUSERProps>
-	) => {
-		console.log("Failed:", errorInfo);
-	};
+	const onFinishFailed = () => {};
 
 	return (
 		<>
 			<Modal
 				centered={true}
 				width={640}
-				title="Add New Role"
+				title="Create Workspace "
 				open={props.show}
 				onOk={props.clickOk}
 				// confirmLoading={confirmLoading}
@@ -64,8 +46,8 @@ export default function EditMainUser(props: EditMainUSERProps) {
 							display: "flex",
 							alignItems: "center",
 						}}
-						label="Role Name"
-						name={"role_name"}
+						label="Workspace Name"
+						name={"workspace_name"}
 
 						// rules={[{ required: true, message: "Please input company name!" }]}
 					>
@@ -73,23 +55,26 @@ export default function EditMainUser(props: EditMainUSERProps) {
 							style={{
 								width: "400px",
 							}}
-							// placeholder="Add NPK"
+							placeholder="Add Workspace Name"
 						/>
 					</Form.Item>
 					<Form.Item
-						style={{ marginTop: "5%", display: "flex", height: "150PX" }}
-						label="Role Description"
-						name={"role_description"}
+						style={{
+							display: "flex",
+							alignItems: "center",
+						}}
+						label="WorkspaceID"
+						name={"workspace_id"}
+
+						// rules={[{ required: true, message: "Please input company name!" }]}
 					>
-						<Input.TextArea
+						<Input
 							style={{
 								width: "400px",
-								minHeight: "150px",
 							}}
-							placeholder="Add Role Description"
+							placeholder="Add Workspace ID"
 						/>
 					</Form.Item>
-
 					<Divider />
 					<Form.Item
 						label=" "
@@ -101,7 +86,7 @@ export default function EditMainUser(props: EditMainUSERProps) {
 							onClick={props.clickCancel}
 							className="mr-4 bg-white hover:bg-stone-100   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
 							style={{
-								color: "blue",
+								color: "gray",
 								width: "170px",
 								height: "40px",
 								fontSize: "14px",
@@ -110,7 +95,7 @@ export default function EditMainUser(props: EditMainUSERProps) {
 								marginTop: "5px",
 							}}
 						>
-							Clear Data
+							Clear
 						</Button>
 						<Button
 							htmlType="submit"
@@ -126,7 +111,7 @@ export default function EditMainUser(props: EditMainUSERProps) {
 								marginLeft: "10px",
 							}}
 						>
-							Add Role
+							Submit
 						</Button>
 					</Form.Item>
 				</Form>

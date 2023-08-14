@@ -1,8 +1,20 @@
 // import { doAddMainMAPPINGUSER } from "";
-import { Button, Checkbox, Divider, Form, Input, Modal, Select } from "antd";
+import {
+	Button,
+	Checkbox,
+	theme,
+	Divider,
+	Form,
+	Input,
+	Modal,
+	Select,
+	Tag,
+} from "antd";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useState } from "react";
-import { HiEllipsisHorizontal } from "react-icons/hi2";
-
+import { HiEllipsisHorizontal, HiMagnifyingGlass } from "react-icons/hi2";
+import { ValidateErrorEntity } from "rc-field-form/es/interface";
 interface AddMainMAPPINGUSERProps {
 	show: boolean;
 	clickOk: () => void;
@@ -17,23 +29,66 @@ export default function AddMainMappingUser(props: AddMainMAPPINGUSERProps) {
 		handleClose(false);
 	};
 
-	const onFinishFailed = () => {};
+	const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
 
-	// const [isModalVisible, setIsModalVisible] = useState(false);
+	const showSecondModal = () => {
+		setIsSecondModalVisible(true);
+	};
 
-	// const showModal = () => {
-	// 	setIsModalVisible(true);
-	// };
+	const handleSecondModalCancel = () => {
+		setIsSecondModalVisible(false);
+		setCheckedList(defaultCheckedList);
+	};
 
-	// const handleCancel = () => {
-	// 	setIsModalVisible(false);
-	// };
+	const CheckboxGroup = Checkbox.Group;
+
+	const plainOptions = [
+		"muhamamd.alimudin@astra.co.id",
+		"Pear@astra.co.id",
+		"Orange@astra.co.id",
+		"haha@astra.co.id",
+		"ihiih@astra.co.id",
+		"saokda@astra.co.id",
+		"asdadasd@astra.co.id",
+		"qeqweqwe@astra.co.id",
+		"aaaaaaaaa@astra.co.id",
+		"bbbbbbbbbbbb@astra.co.id",
+		"cccccccccc@astra.co.id",
+		"dddddddddd@astra.co.id",
+	];
+	const defaultCheckedList = [""];
+	const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
+
+	const onChange = (list: CheckboxValueType[]) => {
+		setCheckedList(list.map((value) => value.toString()));
+	};
+	const indeterminate =
+		checkedList.length > 0 && checkedList.length < plainOptions.length;
+
+	const checkAll = plainOptions.length === checkedList.length;
+
+	const onCheckAllChange = (e: CheckboxChangeEvent) => {
+		setCheckedList(e.target.checked ? plainOptions : []);
+	};
+	function onFinishFailed(errorInfo: ValidateErrorEntity<any>) {
+		console.log("Failed:", errorInfo);
+	}
+
+	const handleRemoveTag = (tagIndex: number) => {
+		const updatedTags = checkedList.filter((_, index) => index !== tagIndex);
+		setCheckedList(updatedTags);
+	};
+
+	const handleAddAllTags = () => {
+		const uniqueTags = Array.from(new Set([...checkedList, ...plainOptions]));
+		setCheckedList(uniqueTags);
+	};
 	return (
 		<>
 			<Modal
 				centered={true}
-				width={640}
-				title="Add New MappingUser"
+				width={940}
+				title="Add Access"
 				open={props.show}
 				onOk={props.clickOk}
 				// confirmLoading={confirmLoading}
@@ -48,7 +103,7 @@ export default function AddMainMappingUser(props: AddMainMAPPINGUSERProps) {
 					autoComplete="off"
 					style={{
 						paddingLeft: "10px",
-						width: 600,
+						minWidth: 900,
 					}}
 				>
 					<Form.Item
@@ -61,96 +116,224 @@ export default function AddMainMappingUser(props: AddMainMAPPINGUSERProps) {
 
 						// rules={[{ required: true, message: "Please input company name!" }]}
 					>
-						<div style={{ display: "flex" }}>
-							<Input
-								style={{ width: "350px" }}
-								placeholder="Add Or Paste email here"
-							/>
+						<div
+							style={{
+								display: "flex",
+								minWidth: "600px",
+							}}
+						>
+							{checkedList.includes("") ? (
+								<Select
+									mode="tags"
+									style={{ minWidth: "600px" }}
+									placeholder="Add or paste users email here"
+								></Select>
+							) : (
+								<Select
+									mode="tags"
+									style={{ minWidth: "600px" }}
+									placeholder="Add or paste users email here"
+									onChange={(values) => {
+										const filteredValues = values.filter(
+											(value) => value.trim() !== ""
+										);
+										setCheckedList(filteredValues);
+									}}
+									value={checkedList}
+									tokenSeparators={[","]}
+									maxTagCount={12}
+									maxTagTextLength={20}
+									onClear={() => setCheckedList([])}
+								>
+									{checkedList.map((tag, index) => (
+										<Tag
+											key={index}
+											closable
+											onClose={() => handleRemoveTag(index)}
+											style={{ marginRight: 8, marginBottom: 8 }}
+										>
+											{tag}
+										</Tag>
+									))}
+								</Select>
+							)}
+
 							<Button
 								icon={<HiEllipsisHorizontal />}
 								style={{ marginLeft: "8px", backgroundColor: "white" }}
-								// onClick={showModal}
+								onClick={showSecondModal}
 							/>
 						</div>
 						<Modal
-							title="New Form"
-							// visible={isModalVisible}
-							// onCancel={handleCancel}
+							centered={true}
+							width="40%"
+							title={<div style={{ fontSize: "18px" }}>Lock Up User</div>}
+							visible={isSecondModalVisible}
+							onCancel={handleSecondModalCancel}
 							footer={null}
+							style={{
+								textAlign: "left",
+								top: "40%",
+								left: "35%",
+								transform: "translate(-50%, -50%)",
+							}}
 						>
 							<Form>
-								<Form.Item label="Title" name="title">
-									<Input />
-								</Form.Item>
-								<Form.Item label="Search Email" name="search_email">
-									<Input />
-								</Form.Item>
-								<Form.Item name="all_emails">
-									<Checkbox>All Emails</Checkbox>
-								</Form.Item>
-								<Form.Item name="selected_emails">
-									<Checkbox>Email 1</Checkbox>
-									<Checkbox>Email 2</Checkbox>
-									{/* Add more checkboxes for emails */}
-								</Form.Item>
-								<Form.Item
-									label=" "
-									colon={false}
-									style={{ textAlign: "left", marginTop: "10px" }}
+								<div
+									style={{
+										border: "1px solid #ddd",
+										borderRadius: "5px 5px 0px 0px",
+										padding: "10px 0px 10px 10px",
+										backgroundColor: "#777",
+										marginTop: "-10px",
+										display: "flex",
+										textAlign: "left",
+									}}
 								>
-									<Button
-										htmlType="reset"
-										onClick={props.clickCancel}
-										className="mr-4 bg-white hover:bg-stone-100   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
-										style={{
-											color: "blue",
-											// width: "170px",
-											// height: "40px",
-											fontSize: "14px",
-											transition: "ease-in ",
-											marginBottom: "10px",
-											marginTop: "5px",
-										}}
-									>
-										Clear Data
-									</Button>
-									<Button
-										htmlType="submit"
-										className="mr-4 bg-blue-700 hover:bg-blue-500   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
-										style={{
-											color: "white",
-											// width: "170px",
-											// height: "40px",
-											fontSize: "14px",
-											transition: "ease-in ",
-											marginBottom: "10px",
-											marginTop: "5px",
-											marginLeft: "10px",
-										}}
-									>
-										Add MappingUser
-									</Button>
-								</Form.Item>
-								{/* Add Submit button or other actions */}
+									<div style={{ color: "white", fontSize: "12px" }}>
+										New User Email
+									</div>
+								</div>
+								<div
+									style={{
+										padding: "10px",
+										boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+										borderRadius: "0px 0px 10px 10px",
+									}}
+								>
+									<div>
+										<Input
+											style={{ marginBottom: "10px", minWidth: "600px" }}
+											prefix={<HiMagnifyingGlass />}
+											placeholder="Search email..."
+										/>
+										<div style={{ maxHeight: "150px", overflow: "auto" }}>
+											<Checkbox
+												indeterminate={indeterminate}
+												onChange={onCheckAllChange}
+												checked={checkAll}
+											>
+												Select all
+											</Checkbox>
+											<CheckboxGroup
+												style={{ display: "flex", flexDirection: "column" }}
+												options={plainOptions}
+												value={checkedList}
+												onChange={onChange}
+											/>
+										</div>
+									</div>
+								</div>
 							</Form>
+							<div></div>
+							<Divider />
+							<Form.Item
+								label=" "
+								colon={false}
+								style={{
+									marginTop: "10px",
+									textAlign: "right",
+									marginBottom: "10px",
+								}}
+							>
+								<Button
+									htmlType="reset"
+									onClick={props.clickCancel}
+									className="mr-4 bg-white hover:bg-stone-100   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
+									style={{
+										color: "blue",
+										// width: "170px",
+										// height: "40px",
+										fontSize: "12px",
+										transition: "ease-in ",
+										marginBottom: "5px",
+										marginTop: "5px",
+									}}
+								>
+									Close
+								</Button>
+								<Button
+									htmlType="submit"
+									className="mr-4 bg-blue-700 hover:bg-blue-500   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 "
+									style={{
+										color: "white",
+										// width: "170px",
+										// height: "40px",
+										fontSize: "12px",
+										transition: "ease-in ",
+										marginBottom: "5px",
+										marginTop: "5px",
+										marginLeft: "5px",
+									}}
+									onClick={() => {
+										setIsSecondModalVisible(false);
+										handleAddAllTags;
+									}}
+								>
+									Submit
+								</Button>
+							</Form.Item>
 						</Modal>
 					</Form.Item>
 					<Form.Item
-						style={{ marginTop: "5%", display: "flex" }}
+						style={{
+							marginTop: "5%",
+							height: "120px",
+						}}
 						label="Role User"
-						name={"checkbox_6"}
+						name={"role_user"}
 					>
-						<Checkbox>Admin CIR</Checkbox>
-						<Checkbox>Admin CIR 2</Checkbox>
-						<Checkbox>PIC CIR </Checkbox>
-						<Checkbox>PIC CIR 2</Checkbox>
+						<div style={{ display: "flex", flexDirection: "column" }}>
+							<label
+								style={{
+									display: "flex",
+									alignItems: "left",
+									marginTop: "10px",
+								}}
+							>
+								<Checkbox />
+								<span style={{ marginLeft: "5px" }}>Admin CIR</span>
+							</label>
+							<label
+								style={{
+									display: "flex",
+									alignItems: "left",
+									marginTop: "10px",
+								}}
+							>
+								<Checkbox />
+								<span style={{ marginLeft: "5px" }}>Admin CIR 2</span>
+							</label>
+							<label
+								style={{
+									display: "flex",
+									alignItems: "left",
+									marginTop: "10px",
+								}}
+							>
+								<Checkbox />
+								<span style={{ marginLeft: "5px" }}>PIC CIR</span>
+							</label>
+							<label
+								style={{
+									display: "flex",
+									alignItems: "left",
+									marginTop: "10px",
+								}}
+							>
+								<Checkbox />
+								<span style={{ marginLeft: "5px" }}>PIC CIR 2</span>
+							</label>
+						</div>
 					</Form.Item>
 
 					<Divider />
 					<Form.Item
 						label=" "
 						colon={false}
-						style={{ textAlign: "left", marginTop: "10px" }}
+						style={{
+							textAlign: "left",
+						}}
 					>
 						<Button
 							htmlType="reset"
@@ -160,10 +343,11 @@ export default function AddMainMappingUser(props: AddMainMAPPINGUSERProps) {
 								color: "blue",
 								width: "170px",
 								height: "40px",
-								fontSize: "14px",
+								fontSize: "12px",
 								transition: "ease-in ",
-								marginBottom: "10px",
-								marginTop: "5px",
+								marginTop: "-20px",
+								marginBottom: "-20px",
+								marginLeft: "100px",
 							}}
 						>
 							Cancel
@@ -175,10 +359,11 @@ export default function AddMainMappingUser(props: AddMainMAPPINGUSERProps) {
 								color: "white",
 								width: "170px",
 								height: "40px",
-								fontSize: "14px",
+								fontSize: "12px",
 								transition: "ease-in ",
-								marginBottom: "10px",
-								marginTop: "5px",
+								marginTop: "-20px",
+								marginBottom: "-20px",
+
 								marginLeft: "10px",
 							}}
 						>
