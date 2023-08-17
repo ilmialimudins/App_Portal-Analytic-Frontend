@@ -304,7 +304,7 @@ export default function MappingUserRole() {
 									>
 										<CustomMultiSelectDD
 											data={demographies}
-											title={"Show All Columns"}
+											title={"Filter By Role"}
 											allValue
 										></CustomMultiSelectDD>
 									</div>
@@ -315,7 +315,7 @@ export default function MappingUserRole() {
 										}}
 									>
 										<Search
-											placeholder="Search Company"
+											placeholder="Search for email"
 											onSearch={handleSearch}
 											allowClear
 											enterButton

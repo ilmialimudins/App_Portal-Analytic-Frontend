@@ -11,15 +11,12 @@ interface AddManageParentMenuProps {
 }
 
 export default function AddManageParentMenu(props: AddManageParentMenuProps) {
-	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const onFinishFailed = () => {};
-	const { Text, Link } = Typography;
+	const { Text } = Typography;
 
 	const [parentMenus, setParentMenus] = useState<string[]>([]);
 
@@ -27,7 +24,6 @@ export default function AddManageParentMenu(props: AddManageParentMenuProps) {
 		const newIndex = parentMenus.length + 1;
 		setParentMenus([...parentMenus, `Parent ${newIndex}`]);
 	};
-
 	const handleDeleteParent = (index: number) => {
 		const updatedParents = parentMenus.filter((_, i) => i !== index);
 		setParentMenus(updatedParents);

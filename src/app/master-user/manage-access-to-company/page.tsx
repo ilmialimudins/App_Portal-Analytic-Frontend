@@ -10,9 +10,9 @@ import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import CustomMultiSelectDD from "@/components/EngagementPrediction/CustomMultiSelectDD";
 import { CSDemographyValue } from "@/stores/dashboard.atom";
 import { useAtomValue } from "jotai";
-import AddManageAccess from "@/components/Modal/AddManageAccess";
 import EditManageAccess from "@/components/Modal/EditManageAccess";
 import { FaPlus } from "react-icons/fa";
+import AddMainManageAccess from "@/components/Modal/AddMainManageAccess";
 
 interface ManageAccess {
 	key: React.Key;
@@ -280,7 +280,7 @@ export default function ManageAccesToCompany() {
 						</strong>
 					</div>
 					{isOpenAddMappingManageAccess ? (
-						<AddManageAccess
+						<AddMainManageAccess
 							show={isOpenAddMappingManageAccess}
 							clickOk={handleOk}
 							clickCancel={handleCancel}
@@ -319,7 +319,7 @@ export default function ManageAccesToCompany() {
 									}}
 								>
 									<Search
-										placeholder="Search Company"
+										placeholder="Search for email"
 										onSearch={handleSearch}
 										allowClear
 										enterButton

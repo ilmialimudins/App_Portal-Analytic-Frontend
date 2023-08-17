@@ -25,26 +25,20 @@ interface EditMainUSERProps {
 }
 
 export default function EditMainUser(props: EditMainUSERProps) {
-	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
 
 	const showSecondModal = () => {
 		setIsSecondModalVisible(true);
 	};
-
 	const handleSecondModalCancel = () => {
 		setIsSecondModalVisible(false);
 		setCheckedList(defaultCheckedList);
 	};
-
 	const CheckboxGroup = Checkbox.Group;
-
 	const plainOptions = [
 		"muhamamd.alimudin@astra.co.id",
 		"Pear@astra.co.id",
@@ -61,27 +55,22 @@ export default function EditMainUser(props: EditMainUSERProps) {
 	];
 	const defaultCheckedList = [""];
 	const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
-
 	const onChange = (list: CheckboxValueType[]) => {
 		setCheckedList(list.map((value) => value.toString()));
 	};
 	const indeterminate =
 		checkedList.length > 0 && checkedList.length < plainOptions.length;
-
 	const checkAll = plainOptions.length === checkedList.length;
-
 	const onCheckAllChange = (e: CheckboxChangeEvent) => {
 		setCheckedList(e.target.checked ? plainOptions : []);
 	};
 	function onFinishFailed(errorInfo: ValidateErrorEntity<any>) {
 		console.log("Failed:", errorInfo);
 	}
-
 	const handleRemoveTag = (tagIndex: number) => {
 		const updatedTags = checkedList.filter((_, index) => index !== tagIndex);
 		setCheckedList(updatedTags);
 	};
-
 	const handleAddAllTags = () => {
 		const uniqueTags = Array.from(new Set([...checkedList, ...plainOptions]));
 		setCheckedList(uniqueTags);

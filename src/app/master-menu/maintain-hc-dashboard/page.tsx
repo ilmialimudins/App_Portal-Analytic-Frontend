@@ -31,7 +31,6 @@ interface MenuItem {
 }
 export default function MaintainHCDaxhboard() {
 	const { Search } = Input;
-
 	const dataSourceEES: EESWorkspace[] = [];
 	const dataSourceMPS: MPSWorkspace[] = [];
 	for (let i = 1; i < 5; i++) {
@@ -46,7 +45,6 @@ export default function MaintainHCDaxhboard() {
 			section: "-	",
 		});
 	}
-
 	const [isOpenAddMainEES, setOpenAddMainEES] = useState(false);
 	const [isOpenAddWorkspace, setOpenAddWorkspace] = useState(false);
 	const [isOpenEditMainEES, setOpenEditMainEES] = useState(false);
@@ -65,14 +63,11 @@ export default function MaintainHCDaxhboard() {
 		setOpenAddWorkspace(false);
 		setOpenEditMainEES(data);
 	};
-
 	const editDataMainEES = (idMainEES: number) => {
 		setOpenEditMainEES(true);
 		// setIdMainEES(idMainEES);
 	};
-
 	const { confirm } = Modal;
-
 	const showDeleteMainEES = (id: number) => {
 		confirm({
 			width: 390,
@@ -92,7 +87,6 @@ export default function MaintainHCDaxhboard() {
 			onCancel() {},
 		});
 	};
-
 	const columnsEESWorkspace: ColumnType<any>[] = [
 		{
 			title: "Report",

@@ -2,7 +2,6 @@
 import {
 	Button,
 	Checkbox,
-	theme,
 	Divider,
 	Form,
 	Input,
@@ -24,24 +23,18 @@ interface AddMainManagaeAccessProps {
 export default function AddMainManagaeAccess(props: AddMainManagaeAccessProps) {
 	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
-
 	const showSecondModal = () => {
 		setIsSecondModalVisible(true);
 	};
-
 	const handleSecondModalCancel = () => {
 		setIsSecondModalVisible(false);
 		setCheckedList(defaultCheckedList);
 	};
-
 	const CheckboxGroup = Checkbox.Group;
-
 	const plainOptions = [
 		"PT Astra International Tbk",
 		"PT Astra Otoparts Tbk",
@@ -54,10 +47,8 @@ export default function AddMainManagaeAccess(props: AddMainManagaeAccessProps) {
 		"PT Serasi Autoraya (SERA)",
 		"PT Astra Credit Companies",
 	];
-
 	const defaultCheckedList = [""];
 	const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
-
 	const onChange = (list: CheckboxValueType[]) => {
 		setCheckedList(list.map((value) => value.toString()));
 	};

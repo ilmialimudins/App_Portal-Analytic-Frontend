@@ -1,105 +1,3103 @@
 "use client";
-import Header from "@/components/EngagementPrediction/Header";
-import LineBreak from "@/components/EngagementPrediction/LineBreak";
 import AddManageParentMenu from "@/components/Modal/AddManageParentMenu";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 import BackHome from "@/components/Other/BackHome";
-import { Button, Input, Table, Modal, Tabs, Select, Divider } from "antd";
-import { ColumnType } from "antd/es/table";
-import { data } from "autoprefixer";
-import { useEffect, useState } from "react";
-import {
-	FaPlus,
-	FaEdit,
-	FaTrash,
-	FaEllipsisH,
-	FaChevronDown,
-	FaChevronUp,
-} from "react-icons/fa";
+import { Button, Tabs, Divider, Dropdown } from "antd";
+import Tree, { AntTreeNodeProps, DataNode, TreeProps } from "antd/es/tree";
+import { ReactElement, useState } from "react";
+import { FaEdit, FaTrash, FaPlusCircle } from "react-icons/fa";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
+import MenuItem from "antd/es/menu/MenuItem";
 
-interface TreeItemProps {
-	text: string;
-	showChildren: boolean;
-	onToggleChildren: () => void;
-}
-interface TreeNodeProps {
-	text: string;
-	showChildren: boolean;
-	onToggleChildren: () => void;
+interface MenuItem {
+	key: string;
+	label: ReactElement;
+	onClick?: () => void;
 }
 
 export default function MantainMenu() {
 	const onChangeTab = (key: string) => {
 		console.log(key);
 	};
-	const TreeNode: React.FC<TreeNodeProps> = ({
-		text,
-		showChildren,
-		onToggleChildren,
-	}) => {
-		const [childrenVisible, setChildrenVisible] = useState(showChildren);
 
-		const handleToggleChildren = () => {
-			setChildrenVisible(!childrenVisible);
-		};
-		return (
-			<div>
-				<TreeItem
-					text={text}
-					showChildren={childrenVisible}
-					onToggleChildren={handleToggleChildren}
-				/>
-				{childrenVisible && (
-					<div style={{ marginLeft: "20px" }}>
-						<TreeItem
-							text="Child 1"
-							showChildren={showChildren}
-							onToggleChildren={handleToggleChildren}
-						/>
-						<TreeItem
-							text="Child 2"
-							showChildren={showChildren}
-							onToggleChildren={handleToggleChildren}
-						/>
-						<TreeItem
-							text="Child 3"
-							showChildren={showChildren}
-							onToggleChildren={handleToggleChildren}
-						/>
-						<TreeItem
-							text="Child 4"
-							showChildren={showChildren}
-							onToggleChildren={handleToggleChildren}
-						/>
-						<TreeItem
-							text="Child 5"
-							showChildren={showChildren}
-							onToggleChildren={handleToggleChildren}
-						/>
-					</div>
-				)}
-			</div>
-		);
+	const [expandedKeys, setExpandedKeys] = useState<string[]>(["0-0-0"]);
+
+	const onExpand = (expandedKeys: React.Key[] | string[]) => {
+		setExpandedKeys(expandedKeys as string[]);
 	};
+
+	const switcherIcon = (props: AntTreeNodeProps) => {
+		const isExpanded = expandedKeys.includes(props.eventKey as string);
+
+		return isExpanded ? <UpOutlined /> : <DownOutlined />;
+	};
+
+	const items: MenuItem[] = [
+		{
+			key: "1",
+			label: (
+				<div
+					style={{
+						display: "flex",
+						justifyItems: "center",
+					}}
+				>
+					<FaEdit
+						style={{
+							color: "blue",
+							fontSize: "12px",
+							marginRight: "5px",
+							marginTop: "5px",
+						}}
+						className="mr-4 hover:text-blue-700"
+					/>
+					Add Sub-sub menu
+				</div>
+			),
+			// onClick: () => EditDataCleansingSurvey(record.age),
+		},
+		{
+			key: "2",
+			label: (
+				<div
+					style={{
+						display: "flex",
+						justifyItems: "center",
+					}}
+				>
+					<FaEdit
+						style={{
+							color: "blue",
+							fontSize: "12px",
+							marginRight: "5px",
+							marginTop: "5px",
+						}}
+						className="mr-4 hover:text-blue-700"
+					/>
+					Edit Sub menu
+				</div>
+			),
+			// onClick: () => EditDataCleansingSurvey(record.age),
+		},
+		{
+			key: "3",
+			label: (
+				<div
+					style={{
+						display: "flex",
+						justifyItems: "center",
+					}}
+				>
+					<FaTrash
+						style={{
+							color: "red",
+							fontSize: "12px",
+							marginRight: "5px",
+							marginTop: "5px",
+						}}
+						className="hover:text-red-700"
+					/>
+					Delete Sub menu
+				</div>
+			),
+			// onClick: () => showDeleteCleansingSurvey(record.age),
+		},
+	];
+	const [expanded, setExpanded] = useState(false);
+
+	const toggleExpand = () => {
+		setExpanded(!expanded);
+	};
+
+	const treeDataESS: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 1.1 EES</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.1.1 EES Dashboard</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.1.2 Benchmark Dashboard</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.1.3 Prediction Dashboard</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-3",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.1.4 Detail Respondent Dashboard</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "left",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									marginTop: "0px",
+									marginLeft: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div style={{ width: "310px" }}>
+										1.1.5 Survey Progress Monitoring Dashboard
+									</div>
+								</div>
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+										backgroundColor: "",
+										margin: "0",
+										padding: "0",
+										justifyContent: "",
+									}}
+								>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					switcherIcon: (
+						<div
+							style={{
+								width: "385px",
+								height: "30px",
+								display: "flex",
+								backgroundColor: "lightskyblue",
+								borderRadius: "10px",
+								color: "black",
+								padding: "0px",
+								marginLeft: "35px",
+								cursor: "default",
+								flexDirection: "row-reverse",
+								alignItems: "center",
+							}}
+							onClick={toggleExpand}
+						>
+							{expanded ? (
+								<div
+									style={{
+										display: "flex",
+										height: "20px",
+										backgroundColor: "lightskyblue",
+										marginRight: "10px",
+									}}
+								>
+									<div
+										style={{
+											display: "flex",
+											width: "20px",
+											justifyContent: "center",
+											alignItems: "center",
+											cursor: "pointer",
+											height: "23px",
+										}}
+									>
+										<div
+											className="hover:bg-white hover:text-blue-500 "
+											style={{
+												width: "20px",
+												height: "30px",
+												alignItems: "center",
+												display: "flex",
+												justifyContent: "center",
+												cursor: "pointer",
+											}}
+										>
+											<UpOutlined />
+										</div>
+									</div>
+								</div>
+							) : (
+								<div
+									style={{
+										display: "flex",
+										height: "20px",
+										backgroundColor: "lightskyblue",
+										marginRight: "10px",
+									}}
+								>
+									<div
+										style={{
+											display: "flex",
+											width: "20px",
+											justifyContent: "center",
+											alignItems: "center",
+											cursor: "pointer",
+											height: "23px",
+										}}
+									>
+										<div
+											className="hover:bg-white hover:text-blue-500 "
+											style={{
+												width: "20px",
+												height: "30px",
+												alignItems: "center",
+												display: "flex",
+												justifyContent: "center",
+												cursor: "pointer",
+											}}
+										>
+											<DownOutlined />
+										</div>
+									</div>
+								</div>
+							)}
+						</div>
+					),
+					key: "0-0-0-5",
+					children: [
+						{
+							title: (
+								<div style={{ cursor: "default" }}>
+									<div
+										style={{
+											width: "365x",
+											height: "30px",
+											display: "flex",
+											justifyContent: "space-between",
+											backgroundColor: "lightskyblue",
+											color: "black",
+											borderRadius: "10px",
+											padding: "5px 10px",
+											margin: "5px",
+											cursor: "default",
+										}}
+									>
+										<div>
+											<div> 1.1.5.1 Survey Progress Monitoring Open</div>
+										</div>
+										<div style={{ display: "flex", alignItems: "center" }}>
+											<Dropdown
+												menu={{ items }}
+												trigger={["click"]}
+												placement="bottomRight"
+											>
+												<HiEllipsisHorizontal
+													style={{
+														fontSize: "8px",
+														height: "30px",
+														cursor: "pointer",
+														width: "30px",
+														alignItems: "center",
+													}}
+													className="mr-4 hover:text-blue-700"
+												/>
+											</Dropdown>
+										</div>
+									</div>
+								</div>
+							),
+							key: "0-0-0-5-1",
+						},
+					],
+				},
+			],
+		},
+	];
+	const treeDataMPS: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 1.2 MPS</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.1 Executive Summary</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.2 Executive Summary - Sumamry Table</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.3 Sustainbility Overview</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-3",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.4 Demography Analysis</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.5 Comparison</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.6 Manpower Trend</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 1.2.7 Recruitment & Training</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+			],
+		},
+	];
+	const treeDataCleansingSurvey: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 2.1 Cleansing Survey</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 2.1.1 Download</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 2.1.2 Upload</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.1.3 Monitoring</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-3",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.1.4 Complete</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-4",
+				},
+			],
+		},
+	];
+
+	const treeDataEditWorkcloud: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 2.2 Edit Workcloud</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div> 2.2.1 Stoprword & Replace</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.2.2 Ngram</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+			],
+		},
+	];
+	const treeDataInvitedRespondentEES: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 2.3 Invited Respondent SPM</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.3.1 Upload Invited Respondent</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.3.2 Modify Data Invited Respondent</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.3.3 Maintain Demography</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-3",
+				},
+			],
+		},
+	];
+	const treeDataMasterDataEES: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 2.4 Master Data EES</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.4.1 Maintain Master Data</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.4.2 Maintain Demography</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>2.3.3 Maintain Demography</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-3",
+				},
+			],
+		},
+	];
+	const treeDataMPSDashboard: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 3.1 MPS Dashboard</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+		},
+	];
+	const treeDataInputMPS: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 3.2 Input MPS</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>3.2.1 Upload MPS</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>3.2.2 Maintain Data</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+			],
+		},
+	];
+	const treeDataInvitedRespondentMPS: DataNode[] = [
+		{
+			disabled: true,
+			title: (
+				<div style={{ cursor: "default" }}>
+					<div
+						style={{
+							width: "970px",
+							display: "flex",
+							justifyContent: "space-between",
+							borderRadius: "0 20 0 20px ",
+							color: "white",
+							padding: "10px 0 10 10px",
+							margin: "5px",
+							alignItems: "center",
+							height: "35px",
+							paddingLeft: "20px",
+						}}
+					>
+						<div> 3.3 Invited Respondent SPM</div>
+						<div
+							style={{
+								display: "flex",
+								height: "35px",
+								backgroundColor: "royalblue",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "85px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									borderRight: "1px solid white",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaPlusCircle />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<FaEdit />
+								</div>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+									}}
+								>
+									<FaTrash />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			),
+			switcherIcon: (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						borderRadius: "0 20px 20px 0",
+						color: "white",
+						height: "35px",
+						margin: "5px",
+						width: "1005px",
+						flexDirection: "row-reverse",
+						marginLeft: "50px",
+						paddingLeft: "20px",
+						backgroundColor: "royalblue",
+						cursor: "default",
+					}}
+					onClick={toggleExpand}
+				>
+					{expanded ? (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<UpOutlined />
+								</div>
+							</div>
+						</div>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								height: "20px",
+								backgroundColor: "royalblue",
+								marginRight: "20px",
+							}}
+						>
+							<div
+								style={{
+									display: "flex",
+									width: "35px",
+									justifyContent: "space-between",
+									alignItems: "center",
+									padding: "10px",
+									cursor: "pointer",
+								}}
+							>
+								<div
+									className="hover:bg-white hover:text-blue-500 "
+									style={{
+										width: "20px",
+										height: "30px",
+										alignItems: "center",
+										display: "flex",
+										justifyContent: "center",
+										cursor: "pointer",
+									}}
+								>
+									<DownOutlined />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			),
+			key: "0-0-0",
+			children: [
+				{
+					title: (
+						<div style={{ cursor: "default" }}>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>3.3.1 Maintain Master Data</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-1",
+				},
+				{
+					title: (
+						<div>
+							<div
+								style={{
+									width: "350px",
+									height: "30px",
+									display: "flex",
+									justifyContent: "space-between",
+									backgroundColor: "lightskyblue",
+									borderRadius: "10px",
+									color: "black",
+									padding: "5px 10px",
+									margin: "5px",
+									cursor: "default",
+								}}
+							>
+								<div>
+									<div>3.3.2 Maitain Demography</div>
+								</div>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<Dropdown
+										menu={{ items }}
+										trigger={["click"]}
+										placement="bottomRight"
+									>
+										<HiEllipsisHorizontal
+											style={{
+												fontSize: "8px",
+												height: "30px",
+												cursor: "pointer",
+												width: "30px",
+												alignItems: "center",
+											}}
+											className="mr-4 hover:text-blue-700"
+										/>
+									</Dropdown>
+								</div>
+							</div>
+						</div>
+					),
+					key: "0-0-0-2",
+				},
+			],
+		},
+	];
 	const item = [
 		{
 			key: "1",
 			label: "1. HC Dashboard",
-			children: <></>,
+			children: (
+				<>
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataESS}
+							onExpand={onExpand}
+						/>
+					</div>
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataMPS}
+							onExpand={onExpand}
+							style={{ marginTop: "20px" }}
+						/>
+					</div>
+				</>
+			),
 		},
 		{
 			key: "2",
 			label: "2. Portal Employee Engagement Survey",
 			children: (
 				<>
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							justifyContent: "space-between",
-						}}
-					>
-						Portal
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataCleansingSurvey}
+							onExpand={onExpand}
+							style={{ marginTop: "20px" }}
+						/>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataEditWorkcloud}
+							onExpand={onExpand}
+							style={{ marginTop: "20px" }}
+						/>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataInvitedRespondentEES}
+							onExpand={onExpand}
+							style={{ marginTop: "20px" }}
+						/>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataMasterDataEES}
+							onExpand={onExpand}
+							style={{ marginTop: "20px" }}
+						/>
 					</div>
 				</>
 			),
@@ -109,42 +3107,31 @@ export default function MantainMenu() {
 			label: "3. Portal Manpower Statistic",
 			children: (
 				<>
-					<div>
-						<div
-							style={{
-								backgroundColor: "blue",
-								borderRadius: "10px",
-								color: "white",
-								padding: "5px 10px",
-								margin: "5px",
-							}}
-						>
-							1.1 EES
-						</div>
-						<TreeNode
-							text="Tree 1"
-							showChildren={false}
-							onToggleChildren={() => {}}
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataMPSDashboard}
+							onExpand={onExpand}
 						/>
-						<TreeNode
-							text="Tree 2"
-							showChildren={false}
-							onToggleChildren={() => {}}
+					</div>
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataInputMPS}
+							onExpand={onExpand}
 						/>
-						<TreeNode
-							text="Tree 3"
-							showChildren={false}
-							onToggleChildren={() => {}}
-						/>
-						<TreeNode
-							text="Tree 4"
-							showChildren={false}
-							onToggleChildren={() => {}}
-						/>
-						<TreeNode
-							text="Tree 5"
-							showChildren={false}
-							onToggleChildren={() => {}}
+					</div>
+					<div style={{ cursor: "default" }}>
+						<Tree
+							showLine
+							switcherIcon={switcherIcon}
+							defaultExpandedKeys={["0-0-0"]}
+							treeData={treeDataInvitedRespondentMPS}
+							onExpand={onExpand}
 						/>
 					</div>
 				</>
@@ -161,40 +3148,8 @@ export default function MantainMenu() {
 	const handleCancel = () => {
 		setOpenAddManageParentMenu(false);
 	};
-	const handleClose = (data: boolean) => {
+	const handleClose = () => {
 		setOpenAddManageParentMenu(false);
-	};
-
-	const TreeItem: React.FC<TreeItemProps> = ({
-		text,
-		showChildren,
-		onToggleChildren,
-	}) => {
-		return (
-			<div style={{ display: "flex", alignItems: "center" }}>
-				{showChildren ? (
-					<FaChevronUp onClick={onToggleChildren} />
-				) : (
-					<FaChevronDown onClick={onToggleChildren} />
-				)}
-				<div
-					style={{
-						backgroundColor: "blue",
-						borderRadius: "10px",
-						color: "white",
-						padding: "5px 10px",
-						margin: "5px",
-					}}
-				>
-					{text}
-				</div>
-				<div style={{ marginLeft: "auto" }}>
-					<FaEdit style={{ marginRight: "5px" }} />
-					<FaTrash style={{ marginRight: "5px" }} />
-					<FaEllipsisH />
-				</div>
-			</div>
-		);
 	};
 
 	return (
@@ -251,7 +3206,6 @@ export default function MantainMenu() {
 							padding: "20px",
 							maxWidth: "70rem",
 							minWidth: "70rem",
-							backgroundColor: "green",
 						}}
 					>
 						<div

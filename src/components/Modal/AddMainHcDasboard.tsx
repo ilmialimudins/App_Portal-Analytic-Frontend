@@ -1,8 +1,7 @@
 // import { doAddMainUSER } from "";
-import { Button, Divider, Form, Input, Modal, Select, Table } from "antd";
+import { Button, Form, Input, Modal, Select, Table } from "antd";
 import { ColumnType } from "antd/es/table";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
-import { styled } from "@tanstack/react-query-devtools/build/lib/utils";
+import { DeleteFilled } from "@ant-design/icons";
 import { useState } from "react";
 
 interface AddMainHcDashboardrops {
@@ -25,9 +24,7 @@ export default function AddMainHcDashboard(props: AddMainHcDashboardrops) {
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const onFinishFailed = () => {};
-
 	const [dataSource, setDataSource] = useState<Section[]>([
 		{
 			key: "0",
@@ -54,7 +51,6 @@ export default function AddMainHcDashboard(props: AddMainHcDashboardrops) {
 		});
 		setDataSource(newData);
 	};
-
 	const handleSectionIdChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		key: React.Key
@@ -116,7 +112,6 @@ export default function AddMainHcDashboard(props: AddMainHcDashboardrops) {
 				) : null,
 		},
 	];
-
 	const [count, setCount] = useState(2);
 	const handleAdd = () => {
 		const newData: Section = {
@@ -131,16 +126,6 @@ export default function AddMainHcDashboard(props: AddMainHcDashboardrops) {
 	const handleDelete = (key: React.Key) => {
 		const newData = dataSource.filter((item) => item.key !== key);
 		setDataSource(newData);
-	};
-	const handleAddSection = () => {
-		const newData: Section = {
-			key: count,
-			section_name: "",
-			section_id: "",
-			no: `London, Park Lane no. ${count}`,
-		};
-		setDataSource([...dataSource, newData]);
-		setCount(count + 1);
 	};
 	return (
 		<>

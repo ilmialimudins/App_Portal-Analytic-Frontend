@@ -11,7 +11,6 @@ interface EditMainHcDashboardrops {
 	clickCancel: () => void;
 	handleClose: (flag: boolean) => void;
 }
-
 interface Section {
 	key: React.Key;
 	no: string;
@@ -19,15 +18,11 @@ interface Section {
 	section_id: string;
 }
 export default function EditMainHcDashboard(props: EditMainHcDashboardrops) {
-	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const onFinishFailed = () => {};
-
 	const [dataSource, setDataSource] = useState<Section[]>([
 		{
 			key: "0",
@@ -54,7 +49,6 @@ export default function EditMainHcDashboard(props: EditMainHcDashboardrops) {
 		});
 		setDataSource(newData);
 	};
-
 	const handleSectionIdChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		key: React.Key
@@ -116,7 +110,6 @@ export default function EditMainHcDashboard(props: EditMainHcDashboardrops) {
 				) : null,
 		},
 	];
-
 	const [count, setCount] = useState(2);
 	const handleEdit = () => {
 		const newData: Section = {
@@ -131,16 +124,6 @@ export default function EditMainHcDashboard(props: EditMainHcDashboardrops) {
 	const handleDelete = (key: React.Key) => {
 		const newData = dataSource.filter((item) => item.key !== key);
 		setDataSource(newData);
-	};
-	const handleEditSection = () => {
-		const newData: Section = {
-			key: count,
-			section_name: "",
-			section_id: "",
-			no: `London, Park Lane no. ${count}`,
-		};
-		setDataSource([...dataSource, newData]);
-		setCount(count + 1);
 	};
 	return (
 		<>

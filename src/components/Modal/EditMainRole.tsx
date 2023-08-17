@@ -1,8 +1,6 @@
 import { Button, Divider, Form, Input, Modal, Select } from "antd";
 import { ValidateErrorEntity } from "rc-field-form/es/interface";
 
-const { Option } = Select;
-
 interface DataMainUSER {
 	company_code: string;
 	company: string;
@@ -11,7 +9,6 @@ interface DataMainUSER {
 	business_line: string;
 	current_modelling_type: string;
 }
-
 interface EditMainUSERProps {
 	idMainUSER?: string;
 	dataMainUSER?: DataMainUSER;
@@ -21,7 +18,6 @@ interface EditMainUSERProps {
 	clickCancel: () => void;
 	isVerified?: boolean;
 }
-
 export default function EditMainUser(props: EditMainUSERProps) {
 	const { handleClose } = props;
 	const idMainUSER = props.idMainUSER;
@@ -29,13 +25,11 @@ export default function EditMainUser(props: EditMainUSERProps) {
 	const onFinish = (data: EditMainUSERProps) => {
 		handleClose(false);
 	};
-
 	const onFinishFailed = (
 		errorInfo: ValidateErrorEntity<EditMainUSERProps>
 	) => {
 		console.log("Failed:", errorInfo);
 	};
-
 	return (
 		<>
 			<Modal

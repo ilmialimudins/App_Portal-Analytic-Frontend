@@ -9,15 +9,11 @@ interface AddWorkspaceProps {
 }
 
 export default function AddWorkspace(props: AddWorkspaceProps) {
-	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const onFinishFailed = () => {};
-
 	return (
 		<>
 			<Modal

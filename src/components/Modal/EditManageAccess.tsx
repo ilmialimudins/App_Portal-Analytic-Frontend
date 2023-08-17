@@ -11,11 +11,8 @@ import {
 } from "antd";
 import { useState } from "react";
 import { HiEllipsisHorizontal, HiMagnifyingGlass } from "react-icons/hi2";
-import Search from "antd/es/input/Search";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-
-const { Option } = Select;
 
 interface DataMainUSER {
 	company_code: string;
@@ -25,7 +22,6 @@ interface DataMainUSER {
 	business_line: string;
 	current_modelling_type: string;
 }
-
 interface EditMainUSERProps {
 	idMainUSER?: string;
 	dataMainUSER?: DataMainUSER;
@@ -35,31 +31,23 @@ interface EditMainUSERProps {
 	clickCancel: () => void;
 	isVerified?: boolean;
 }
-
 export default function EditMainUser(props: EditMainUSERProps) {
 	const idMainUSER = props.idMainUSER;
 	const dataMainUSER = props.dataMainUSER;
-
 	const { Option } = Select;
 	const { handleClose } = props;
-
 	const onFinish = () => {
 		handleClose(false);
 	};
-
 	const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
-
 	const showSecondModal = () => {
 		setIsSecondModalVisible(true);
 	};
-
 	const handleSecondModalCancel = () => {
 		setIsSecondModalVisible(false);
 		setCheckedList(defaultCheckedList);
 	};
-
 	const CheckboxGroup = Checkbox.Group;
-
 	const plainOptions = [
 		"PT Astra International Tbk",
 		"PT Astra Otoparts Tbk",
@@ -72,25 +60,20 @@ export default function EditMainUser(props: EditMainUSERProps) {
 		"PT Serasi Autoraya (SERA)",
 		"PT Astra Credit Companies",
 	];
-
 	const defaultCheckedList = [""];
 	const [checkedList, setCheckedList] = useState<string[]>(defaultCheckedList);
-
 	const onChange = (list: CheckboxValueType[]) => {
 		setCheckedList(list.map((value) => value.toString()));
 	};
 	const indeterminate =
 		checkedList.length > 0 && checkedList.length < plainOptions.length;
-
 	const checkAll = plainOptions.length === checkedList.length;
-
 	const onCheckAllChange = (e: CheckboxChangeEvent) => {
 		setCheckedList(e.target.checked ? plainOptions : []);
 	};
 	function onFinishFailed(errorInfo: ValidateErrorEntity<any>) {
 		console.log("Failed:", errorInfo);
 	}
-
 	const handleRemoveTag = (tagIndex: number) => {
 		const updatedTags = checkedList.filter((_, index) => index !== tagIndex);
 		setCheckedList(updatedTags);
